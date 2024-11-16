@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Médicos</title>
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <style>
+    body {
+      margin-top: 70px;
+    }
+    .navbar-inverse {
+      background-color: #333;
+      border-color: #080808;
+    }
+    .navbar-inverse .navbar-brand,
+    .navbar-inverse .navbar-nav > li > a {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#" th:href="@{/}">Inicio</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a th:href="@{/pacientes}">Paciente <i class="fas fa-procedures"></i></a></li>
+        <li class="active"><a th:href="@{/medicos}">Médico <i class="fas fa-user-md"></i></a></li>
+        <li><a href="#">Consulta <i class="fas fa-notes-medical"></i></a></li>
+        <li class="active"><a th:href="@{/especialidades}">Especialidad <i class="fas fa-notes-medical"></i></a></li>
+        <li class="active"><a th:href="@{/fichas}">Ficha <i class="fas fa-file-alt"></i></a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Cerrar sesión <i class="fas fa-sign-out-alt"></i></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Lista de Médicos</h1>
+  <h4>Bienvenido, <span sec:authentication="principal.username"></span></h4>
+
+  <!-- Barra de búsqueda -->
+  <form th:action="@{/medicos}" method="get" class="form-inline">
+    <div class="form-group">
+      <input type="text" name="nombre" class="form-control" placeholder="Buscar por nombre" />
+    </div>
+    <div class="form-group">
+      <button type="submit" name="tipoBusqueda" value="nombre" class="btn btn-primary">
+        <i class="fas fa-search"></i> Buscar
+      </button>
+      <button type="submit" name="tipoBusqueda" value="todos" class="btn btn-secondary">
+        <i class="fas fa-list"></i> Mostrar Todos
+      </button>
+    </div>
+  </form>
+  <br>
+
+  <!-- Botón para agregar nuevo médico -->
+  <div class="text-right">
+    <a th:href="@{/medicos/crear}" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Registrar Médico
+    </a>
+  </div>
+  <br>
+
+  <!-- Tabla de médicos con soporte responsivo -->
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Sexo</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Nro Matrícula</th>
+        <th>Especialidad</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+      <tbody class="table-group-divider">
+      <tr th:each="medico : ${medicos}">
+        <td th:text="${medico.id}">1</td>
+        <td th:text="${medico.nombre}">Juan</td>
+        <td th:text="${medico.apellido}">Perez</td>
+        <td th:text="${medico.sexo}">Masculino</td>
+        <td th:text="${medico.email}">juan.perez@example.com</td>
+        <td th:text="${medico.telefono}">1234567890</td>
+        <td th:text="${medico.nromatricula}">987654</td>
+        <td th:text="${medico.especialidad}">Cardiología</td>
+        <td>
+          <a th:href="@{/medicos/editar/{id}(id=${medico.id})}" class="btn btn-warning btn-sm">
+            <i class="fas fa-edit"></i> Editar
+          </a>
+          <a th:href="@{/medicos/eliminar(id=${medico.id})}" class="btn btn-danger btn-sm">
+            <i class="fas fa-trash"></i> Eliminar
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>

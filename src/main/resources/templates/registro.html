@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Usuarios</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <style>
+    /* Fondo de pantalla completa */
+    body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url('https://img.freepik.com/foto-gratis/blur-hospital_1203-7972.jpg');
+      background-size: cover;
+      background-position: center;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Estilo del contenedor de registro */
+    .register-container {
+      background: rgba(0, 0, 0, 0.6); /* Fondo negro oscuro y opaco */
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 380px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      color: white;
+      text-align: center;
+      transition: all 0.3s ease; /* Transición para efecto de hover */
+    }
+
+    .register-container:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+      transform: translateY(-5px);
+    }
+
+    /* Título */
+    h2 {
+      font-size: 26px;
+      font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    /* Campos del formulario */
+    .form-control {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 8px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      padding: 10px;
+    }
+
+    .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Botón de registro */
+    .btn-success {
+      background-color: #6a1b9a;
+      border: none;
+      width: 100%;
+      padding: 12px;
+      border-radius: 20px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-success:hover {
+      background-color: #8e24aa;
+    }
+
+    /* Enlace para iniciar sesión */
+    .login-link {
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 15px;
+      display: block;
+      font-size: 14px;
+    }
+
+    .login-link:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    /* Responsividad */
+    @media (max-width: 576px) {
+      .register-container {
+        padding: 30px 20px;
+        width: 90%;
+      }
+      h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="register-container">
+  <h2>Regístrate en Clínica SSCV</h2>
+  <form th:action="@{/registro}" method="post" th:object="${usuario}">
+    <div th:if="${param.exito}">
+      <div class="alert alert-info">Se ha registrado exitosamente en la aplicación</div>
+    </div>
+
+    <div class="form-group">
+      <input id="nombre" type="text" class="form-control" th:field="*{nombre}" required placeholder="Nombre">
+    </div>
+
+    <div class="form-group">
+      <input id="apellido" type="text" class="form-control" th:field="*{apellido}" required placeholder="Apellido">
+    </div>
+
+    <div class="form-group">
+      <input id="email" type="email" class="form-control" th:field="*{email}" required placeholder="Email">
+    </div>
+
+    <div class="form-group">
+      <input id="password" type="password" class="form-control" th:field="*{password}" required placeholder="Contraseña">
+    </div>
+
+    <button type="submit" class="btn btn-success">Registrar</button>
+
+    <a th:href="@{/login}" class="login-link">Si ya tienes una cuenta, inicia sesión aquí</a>
+  </form>
+</div>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+</body>
+</html>

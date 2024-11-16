@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio de Sesión</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <style>
+    /* Fondo de pantalla completa */
+    body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url('https://st3.depositphotos.com/8846918/13292/i/450/depositphotos_132923894-stock-photo-doctor-with-a-stethoscope-on.jpg');
+      background-size: cover;
+      background-position: center;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Estilo del contenedor de inicio de sesión */
+    .login-container {
+      background: rgba(0, 0, 0, 0.6); /* Fondo negro más oscuro y opaco */
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 380px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      color: white;
+      text-align: center;
+      transition: all 0.3s ease; /* Transición para un efecto de hover */
+    }
+
+    .login-container:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+      transform: translateY(-5px);
+    }
+
+    /* Imagen de perfil */
+    .profile-icon {
+      background: rgba(255, 255, 255, 0.3);
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-icon span {
+      font-size: 40px;
+      color: #fff;
+    }
+
+    /* Título */
+    h2 {
+      font-size: 26px;
+      font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    /* Campos del formulario */
+    .form-control {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 8px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      padding: 10px;
+    }
+
+    .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Botón de inicio de sesión */
+    .btn-primary {
+      background-color: #6a1b9a;
+      border: none;
+      width: 100%;
+      padding: 12px;
+      border-radius: 20px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #8e24aa;
+    }
+
+    /* Texto de enlace de registro */
+    .register-link {
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 15px;
+      display: block;
+      font-size: 14px;
+    }
+
+    .register-link:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    /* Responsividad */
+    @media (max-width: 576px) {
+      .login-container {
+        padding: 30px 20px;
+        width: 90%;
+      }
+      h2 {
+        font-size: 22px;
+      }
+      .profile-icon {
+        width: 70px;
+        height: 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-container">
+  <div class="profile-icon">
+    <span class="glyphicon glyphicon-user"></span>
+  </div>
+  <h2>Clínica SSCV</h2>
+  <form th:action="@{/login}" method="post">
+    <div th:if="${param.error}">
+      <div class="alert alert-danger">Usuario o contraseña inválidos</div>
+    </div>
+
+    <div th:if="${param.logout}">
+      <div class="alert alert-info">Ha cerrado sesión exitosamente</div>
+    </div>
+
+    <div class="form-group">
+      <input id="username" name="username" type="text" class="form-control" required placeholder="Email ID">
+    </div>
+
+    <div class="form-group">
+      <input id="password" type="password" name="password" class="form-control" required placeholder="Password">
+    </div>
+
+    <button type="submit" class="btn btn-primary">LOGIN</button>
+  </form>
+
+  <a th:href="@{/registro}" class="register-link">Si eres nuevo usuario, regístrate aquí</a>
+</div>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+</body>
+</html>

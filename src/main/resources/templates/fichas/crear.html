@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>Registrar Ficha</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+  <h2>Registrar Ficha</h2>
+  <form th:action="@{/fichas/crear}" th:object="${fichaDTO}" method="post">
+
+    <!-- Selección de Médico -->
+    <div class="form-group">
+      <label for="medico">Médico:</label>
+      <select class="form-control" id="medico" th:field="*{medicoId}" required>
+        <option th:each="medico : ${medicos}" th:value="${medico.id}" th:text="${medico.nombre}"></option>
+      </select>
+    </div>
+
+    <!-- Selección de Paciente -->
+    <div class="form-group">
+      <label for="paciente">Paciente:</label>
+      <select class="form-control" id="paciente" th:field="*{pacienteId}" required>
+        <option th:each="paciente : ${pacientes}" th:value="${paciente.id}" th:text="${paciente.nombre}"></option>
+      </select>
+    </div>
+
+    <!-- Fecha -->
+    <div class="form-group">
+      <label for="fecha">Fecha:</label>
+      <input type="date" class="form-control" id="fecha" th:field="*{fecha}" required>
+    </div>
+
+    <!-- Estado -->
+    <div class="form-group">
+      <label for="estado">Estado:</label>
+      <select class="form-control" id="estado" th:field="*{estado}" required>
+        <option value="Activo" th:selected="*{estado == 'Activo'}">Activo</option>
+        <option value="Inactivo" th:selected="*{estado == 'Inactivo'}">Inactivo</option>
+      </select>
+    </div>
+
+    <!-- Botones para Guardar y Cancelar -->
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a th:href="@{/fichas}" class="btn btn-danger">Cancelar</a>
+  </form>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>
