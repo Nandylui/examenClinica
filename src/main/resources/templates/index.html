@@ -76,10 +76,9 @@
   </div>
 </nav>
 
-<br><br>
-
+<!--<br><br>-->
 <div class="container">
-  <h1>Lista de Administradores</h1>
+  <h1>Seguro de Salud Vida Sana (SSVS)</h1>
   <br>
   <h4>
     Bienvenido <span sec:authentication="principal.username"></span>
@@ -87,24 +86,40 @@
 
   <br> <br>
 
-  <table class="table table-striped table-bordered">
-    <thead class="table-dark">
-    <tr>
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Apellido</th>
-      <th>Email</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="usuario : ${usuarios}">
-      <td th:text="${usuario.id}">ID</td>
-      <td th:text="${usuario.nombre}">ID</td>
-      <td th:text="${usuario.apellido}">ID</td>
-      <td th:text="${usuario.email}">ID</td>
-    </tr>
-    </tbody>
-  </table>
+<!--  <table class="table table-striped table-bordered">-->
+<!--    <thead class="table-dark">-->
+<!--    <tr>-->
+<!--      <th>ID</th>-->
+<!--      <th>Nombre</th>-->
+<!--      <th>Apellido</th>-->
+<!--      <th>Email</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each="usuario : ${usuarios}">-->
+<!--      <td th:text="${usuario.id}">ID</td>-->
+<!--      <td th:text="${usuario.nombre}">ID</td>-->
+<!--      <td th:text="${usuario.apellido}">ID</td>-->
+<!--      <td th:text="${usuario.email}">ID</td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--  </table>-->
+
+  <div class="row text-center">
+    <div class="col-md-4">
+      <img src="https://www.uninorte.edu.co/documents/13969336/0/20220929_154707.jpg/f80c5623-7d82-b799-fe9d-fdd815c8604d?t=1710279316056&download=true" alt="Imagen 1" class="img-responsive img-thumbnail">
+      <p>En nuestro hospital, contamos con un equipo de médicos y enfermeras altamente capacitados, comprometidos a cuidar de tu salud con dedicación y profesionalismo. Tu bienestar es nuestra prioridad.</p>
+    </div>
+    <div class="col-md-4">
+      <img src="https://img.freepik.com/fotos-premium/pasillo-hospital-gente-caminando_604472-5605.jpg" alt="Imagen 2" class="img-responsive img-thumbnail">
+      <p>Nuestras instalaciones están diseñadas para ofrecerte un entorno seguro, cómodo y equipado con la última tecnología médica. Estamos listos para atenderte en cualquier momento.</p>
+    </div>
+    <div class="col-md-4">
+      <img src="https://www.grupohospitalariohc.com/wp-content/uploads/2021/12/GHHC-La-importancia-de-la-UCI.jpg" alt="Imagen 3" class="img-responsive img-thumbnail">
+      <p>Ofrecemos habitaciones modernas y totalmente equipadas para garantizar la mejor atención a nuestros pacientes, con tecnología de punta que respalda nuestro cuidado especializado.</p>
+    </div>
+  </div>
+
 </div>
 
 <!-- Latest compiled and minified JavaScript -->
@@ -112,6 +127,5 @@
         src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-
 </body>
 </html>
