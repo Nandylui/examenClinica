@@ -10,5 +10,6 @@ public interface UsuarioServicio extends UserDetailsService {
     public Usuario guardar(UsuarioRegistroDTO registroDTO);
     public List<Usuario> listarUsuarios();
     public List<Usuario> obtenerTodosLosUsuarios();
+    public Usuario encontrarPorNombreUsuario(String nombreUsuario);
 
 }

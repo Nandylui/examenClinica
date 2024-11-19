@@ -64,4 +64,9 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         return List.of();
     }
 
+    @Override
+    public Usuario encontrarPorNombreUsuario(String nombreUsuario) {
+        return usuarioRepositorio.findByEmail(nombreUsuario);
+    }
+
 }

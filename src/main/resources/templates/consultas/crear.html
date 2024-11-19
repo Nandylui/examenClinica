@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>Crear Consulta</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+  <h2>Crear Consulta</h2>
+  <form th:action="@{/consultas/crear}" th:object="${consultaDTO}" method="post" class="form-horizontal">
+    <!-- Campo Fecha -->
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="fecha">Fecha:</label>
+      <div class="col-sm-10">
+        <input type="date" th:field="*{fecha}" id="fecha" class="form-control" required>
+      </div>
+    </div>
+
+    <!-- Campo Diagnóstico -->
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="diagnostico">Diagnóstico:</label>
+      <div class="col-sm-10">
+        <textarea th:field="*{diagnostico}" id="diagnostico" class="form-control" rows="3" placeholder="Ingrese el diagnóstico" required></textarea>
+      </div>
+    </div>
+
+    <!-- Campo Tratamiento -->
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="tratamiento">Tratamiento:</label>
+      <div class="col-sm-10">
+        <textarea th:field="*{tratamiento}" id="tratamiento" class="form-control" rows="3" placeholder="Ingrese el tratamiento" required></textarea>
+      </div>
+    </div>
+
+    <!-- Select para Médico -->
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="medico">Médico:</label>
+      <div class="col-sm-10">
+        <select th:field="*{medicoId}" id="medico" class="form-control" required>
+          <option value="" th:selected="${consultaDTO.medicoId == null}">Seleccione un médico</option>
+          <option th:each="medico : ${medicos}"
+                  th:value="${medico.id}"
+                  th:text="${medico.nombre} + ' ' + ${medico.apellido}"
+                  th:selected="${consultaDTO.medicoId == medico.id}"></option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Select para Historia Clínica -->
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="historiaClinica">Historia Clínica:</label>
+      <div class="col-sm-10">
+        <select th:field="*{historiaClinicaId}" id="historiaClinica" class="form-control" required>
+          <option value="" th:selected="${consultaDTO.historiaClinicaId == null}">Seleccione una historia clínica</option>
+          <option th:each="historia : ${historiasClinicas}"
+                  th:value="${historia.id}"
+                  th:text="${historia.id}"></option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar Consulta</button>
+        <a th:href="@{/historiasclinicas}" class="btn btn-default">Cancelar</a>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Registrar Historia Clínica</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+    <h2>Registrar Historia Clínica</h2>
+    <form th:action="@{/historiasclinicas/crear}" th:object="${historiaClinicaDTO}" method="post">
+        <div class="form-group">
+            <label for="paciente">Paciente:</label>
+            <select class="form-control" id="paciente" th:field="*{pacienteId}" required>
+                <option th:each="paciente : ${pacientes}" th:value="${paciente.id}" th:text="${paciente.nombre}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="fecha">Fecha:</label>
+            <input type="date" class="form-control" id="fecha" th:field="*{fechaCreacion}" required>
+        </div>
+        <div class="form-group">
+            <label for="observacion">Observación:</label>
+            <textarea class="form-control" id="observacion" th:field="*{observacion}" required></textarea>
+        </div>
+        <!-- Botones para Guardar y Cancelar -->
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a th:href="@{/historiasclinicas}" class="btn btn-danger">Cancelar</a>
+    </form>
+</div>
+
+<!--&lt;!&ndash; Tabla de Historias Clínicas &ndash;&gt;-->
+<!--<div class="container mt-4">-->
+<!--    <h3>Historias Clínicas Registradas</h3>-->
+<!--    <table class="table table-striped">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>Paciente</th>-->
+<!--            <th>Fecha</th>-->
+<!--            <th>Observación</th>-->
+<!--            <th>Acciones</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="historiaclinica : ${historiasclinicas}">-->
+<!--            <td th:text="${historiaclinica.paciente.nombre}"></td>-->
+<!--            <td th:text="${historiaclinica.fechaCreacion}"></td>-->
+<!--            <td th:text="${historiaclinica.observacion}"></td>-->
+<!--            <td>-->
+<!--                <a th:href="@{/consultas/{id}(id=${historiaclinica.id})}" class="btn btn-info btn-sm">Consultas</a>-->
+<!--                <a th:href="@{/historiasclinicas/{id}(id=${historiaclinica.id})}" class="btn btn-primary btn-sm">Ver</a>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>

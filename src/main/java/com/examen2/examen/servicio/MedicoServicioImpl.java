@@ -7,45 +7,55 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class MedicoServicioImpl {
+public class MedicoServicioImpl implements MedicoServicio {
+
     @Autowired
     private MedicoRepositorio medicoRepositorio;
 
     @Transactional(readOnly = true)
-    public List<Medico> findAll(){
-        return (List<Medico>) medicoRepositorio.findAll();
+    @Override
+    public List<Medico> obtenerTodosMedicos() {
+        return medicoRepositorio.findAll();
     }
 
-    public List<Medico> listarTodoslosMedicos(String palabraClave){
-        if(palabraClave!=null){
+    @Override
+    public Optional<Medico> obtenerMedicoPorId(Long id) {
+        return medicoRepositorio.findById(id);
+    }
+
+    @Override
+    public Medico guardarMedico(Medico medico) {
+        return medicoRepositorio.save(medico);
+    }
+
+    @Override
+    public void eliminarMedico(Long id) {
+        medicoRepositorio.deleteById(id);
+    }
+
+    @Override
+    public List<Medico> listarMedicos() {
+        return medicoRepositorio.findAll();
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        // Implementa correctamente este método si es necesario
+        return false;  // Placeholder; reemplázalo según tu lógica
+    }
+
+    // Métodos adicionales si los necesitas
+    public List<Medico> listarTodoslosMedicos(String palabraClave) {
+        if (palabraClave != null) {
             return medicoRepositorio.findByNombre(palabraClave);
         }
         return medicoRepositorio.findAll();
     }
 
-    public List<Medico>listarTodosMedicos(){
-        return medicoRepositorio.findAll();
-    }
-
-    public Medico guardarMedico(Medico medico){
+    public Medico actualizarMedico(Medico medico) {
         return medicoRepositorio.save(medico);
     }
-
-    public Medico obtenerMedicoPorId(Long id){
-        return medicoRepositorio.findById(id).get();
-    }
-
-    public Medico actualizarMedico(Medico medico){
-        return medicoRepositorio.save(medico);
-    }
-
-    public void eliminarMedico(Long id){
-        medicoRepositorio.deleteById(id);
-    }
-
-//    public boolean existsByEmail(String email) {
-//        return medicoRepositorio.findByEmail(email);
-//    }
 }

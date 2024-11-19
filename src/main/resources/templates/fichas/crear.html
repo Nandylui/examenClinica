@@ -15,7 +15,7 @@
     <div class="form-group">
       <label for="medico">Médico:</label>
       <select class="form-control" id="medico" th:field="*{medicoId}" required>
-        <option th:each="medico : ${medicos}" th:value="${medico.id}" th:text="${medico.nombre}"></option>
+        <option th:each="medico : ${medicos}" th:value="${medico.id}" th:text="${medico.nombre + ' ' + medico.apellido}"></option>
       </select>
     </div>
 

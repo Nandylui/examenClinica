@@ -42,5 +42,10 @@ public class HistoriaClinicaServicioImpl implements HistoriaClinicaServicio{
         return historiaClinicaRepositorio.findAll();
     }
 
+//    @Override
+//    public Object findById(Long id) {
+//        return null;
+//    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.examen2.examen.servicio;
 
 import com.examen2.examen.modelo.Medico;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Ver Consultas</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Consultas</h2>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Diagnóstico</th>
+            <th>Tratamiento</th>
+            <th>Médico</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="consulta : ${consultas}">
+            <td th:text="${consulta.fecha}"></td>
+            <td th:text="${consulta.diagnostico}"></td>
+            <td th:text="${consulta.tratamiento}"></td>
+            <td th:text="${consulta.medico.nombre} + ' ' + ${consulta.medico.apellido}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="/historiasclinicas" class="btn btn-default">Volver</a>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

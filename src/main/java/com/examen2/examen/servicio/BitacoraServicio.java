@@ -3,6 +3,7 @@ package com.examen2.examen.servicio;
 import com.examen2.examen.modelo.Bitacora;
 import com.examen2.examen.modelo.Usuario;
 import com.examen2.examen.repositorio.BitacoraRepositorio;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,18 @@ public class BitacoraServicio {
         bitacora.setFecha(LocalDateTime.now());
         bitacoraRepositorio.save(bitacora);
     }
+
+    private String getClientIp(HttpServletRequest request) {
+        String ip = request.getHeader("X-Forwarded-For"); // Obtiene la IP detrás de un proxy
+        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr(); // Obtiene la IP directamente
+        }
+        // Convertir localhost IPv6 (::1) a IPv4
+        if ("0:0:0:0:0:0:0:1".equals(ip)) {
+            ip = "127.0.0.1";
+        }
+        return ip;
+    }
+
 
 }

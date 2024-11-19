@@ -11,4 +11,6 @@ public interface HistoriaClinicaServicio {
     Optional<HistoriaClinica> obtenerHistoriaClinicaPorId(Long id);
     Optional<HistoriaClinica> obtenerHistoriaClinicaPorPacienteId(Long pacienteId);
     List<HistoriaClinica> obtenerTodasLasHistoriasClinicas();
+
+//    Object findById(Long id);
 }

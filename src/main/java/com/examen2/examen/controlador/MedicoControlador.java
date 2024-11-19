@@ -4,11 +4,17 @@ package com.examen2.examen.controlador;
 import com.examen2.examen.controlador.dto.MedicoDTO;
 import com.examen2.examen.modelo.Especialidad;
 import com.examen2.examen.modelo.Medico;
+import com.examen2.examen.modelo.Usuario;
 import com.examen2.examen.repositorio.MedicoRepositorio;
+import com.examen2.examen.servicio.BitacoraServicio;
 import com.examen2.examen.servicio.EspecialidadServicio;
 import com.examen2.examen.servicio.MedicoServicioImpl;
+import com.examen2.examen.servicio.UsuarioServicio;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,6 +37,13 @@ public class MedicoControlador {
     @Autowired
     private MedicoServicioImpl medicoServicio;
 
+    @Autowired
+    private UsuarioServicio usuarioServicio;
+
+    @Autowired
+    private BitacoraServicio bitacoraServicio;
+
+
 //    @GetMapping({"","/"})
 //    public String obtenerMedicos(Model model){
 //        var medicos = servicio.findAll(Sort.by(Sort.Direction.ASC, "id"));
@@ -41,7 +54,7 @@ public class MedicoControlador {
 
     //    esto me permite buscar y listar nombres
     @GetMapping({"", "/"})
-    public String obtenerMedicos(@RequestParam(value = "nombre", required = false) String nombre, Model model){
+    public String obtenerMedicos(@RequestParam(value = "nombre", required = false) String nombre, Model model, HttpServletRequest request){
         List<Medico> medicos;
 
         // Si se proporciona un nombre, busca médicos por nombre
@@ -55,22 +68,41 @@ public class MedicoControlador {
         model.addAttribute("medicos", medicos);
         model.addAttribute("nombre", nombre); // Para mostrar el valor de búsqueda en la barra de búsqueda
 
+        // Registrar en bitácora que el admin creó un nuevo medico
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String nombreUsuario = authentication.getName();
+        Usuario usuario = usuarioServicio.encontrarPorNombreUsuario(nombreUsuario);
+        String ip = request.getRemoteAddr();
+        String dispositivo = request.getHeader("User-Agent");
+        bitacoraServicio.registrarAccion(usuario, "Visito la vista medico", dispositivo, ip);
+
+
         return "medicos/index"; // El nombre de la vista para mostrar la lista de médicos
     }
 
     @GetMapping("/crear")
-    public String crearMedico(Model model){
+    public String crearMedico(Model model, HttpServletRequest request){
         MedicoDTO medicoDTO = new MedicoDTO();
         List<Especialidad> especialidades = especialidadServicio.obtenerTodasLasEspecialidades(); // Obtener todas las especialidades
         model.addAttribute("medicoDTO", medicoDTO);
         model.addAttribute("especialidades", especialidades);
+
+        // el admin Accedio a la pagina de crear un nuevo medico
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String nombreUsuario = authentication.getName();
+        Usuario usuario = usuarioServicio.encontrarPorNombreUsuario(nombreUsuario);
+        String ip = request.getRemoteAddr();
+        String dispositivo = request.getHeader("User-Agent");
+        bitacoraServicio.registrarAccion(usuario, "Accedio a la pagina de crear un medico", dispositivo, ip);
+
+
         return "medicos/crear";
     }
 
 
 
     @PostMapping("/crear")
-    public String guardarMedico(@Valid @ModelAttribute("medicoDTO") MedicoDTO medicoDTO, BindingResult result, Model model) {
+    public String guardarMedico(@Valid @ModelAttribute("medicoDTO") MedicoDTO medicoDTO, BindingResult result, Model model, HttpServletRequest request) {
 
         // Validar errores
         if (result.hasErrors()) {
@@ -101,12 +133,20 @@ public class MedicoControlador {
         // Guardar el médico
         medicoServicio.guardarMedico(medico);
 
+        // el admin creó un nuevo medico
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String nombreUsuario = authentication.getName();
+        Usuario usuario = usuarioServicio.encontrarPorNombreUsuario(nombreUsuario);
+        String ip = request.getRemoteAddr();
+        String dispositivo = request.getHeader("User-Agent");
+        bitacoraServicio.registrarAccion(usuario, "Creo un medico", dispositivo, ip);
+
         return "redirect:/medicos"; // Redirigir al listado de médicos
     }
 
 
     @GetMapping("/editar/{id}")
-    public String editarMedico(Model model, @PathVariable Long id){
+    public String editarMedico(Model model, @PathVariable Long id, HttpServletRequest request){
         Medico medico = servicio.findById(id).orElse(null);
         if(medico == null){
             return "redirect:/medicos";
@@ -125,12 +165,21 @@ public class MedicoControlador {
         model.addAttribute("medicoDTO", medicoDTO);
         model.addAttribute("medico", medico);
         model.addAttribute("especialidades", especialidades);  // Pasar las especialidades al modelo
+
+        // el admin Accedio a la pagina para editar un medico
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String nombreUsuario = authentication.getName();
+        Usuario usuario = usuarioServicio.encontrarPorNombreUsuario(nombreUsuario);
+        String ip = request.getRemoteAddr();
+        String dispositivo = request.getHeader("User-Agent");
+        bitacoraServicio.registrarAccion(usuario, "Accedio a la pagina para editar un medico con ID:" + id, dispositivo, ip);
+
         return "medicos/editar";
     }
 
 
     @PostMapping("/editar/{id}")
-    public String editarMedico(@PathVariable Long id, @Valid @ModelAttribute MedicoDTO medicoDTO, BindingResult result, Model model){
+    public String editarMedico(@PathVariable Long id, @Valid @ModelAttribute MedicoDTO medicoDTO, BindingResult result, Model model, HttpServletRequest request){
         Medico medico = servicio.findById(id).orElse(null);
         if(medico == null){
             return "redirect:/medicos";
@@ -164,14 +213,34 @@ public class MedicoControlador {
 
         // Guardar el médico actualizado
         servicio.save(medico);
+
+        //el admin Edito el paciente un medico
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String nombreUsuario = authentication.getName();
+        Usuario usuario = usuarioServicio.encontrarPorNombreUsuario(nombreUsuario);
+        String ip = request.getRemoteAddr();
+        String dispositivo = request.getHeader("User-Agent");
+        bitacoraServicio.registrarAccion(usuario, "Edito el medico con ID:" + id, dispositivo, ip);
+
+
         return "redirect:/medicos";
     }
 
     @GetMapping("/eliminar")
-    public String eliminarMedico(@RequestParam Long id){
+    public String eliminarMedico(@RequestParam Long id, HttpServletRequest request){
         Medico medico=servicio.findById(id).orElse(null);
         if(medico!= null){
             servicio.delete(medico);
+
+            // el admin elimino un medico
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String nombreUsuario = authentication.getName();
+            Usuario usuario = usuarioServicio.encontrarPorNombreUsuario(nombreUsuario);
+            String ip = request.getRemoteAddr();
+            String dispositivo = request.getHeader("User-Agent");
+            bitacoraServicio.registrarAccion(usuario, nombreUsuario, dispositivo, ip);
+
+
         }
         return "redirect:/medicos";
     }

@@ -5,6 +5,7 @@ import com.examen2.examen.repositorio.ConsultaRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,10 +39,10 @@ public class ConsultaServicioImpl implements ConsultaServicio{
         return consultaRepositorio.findByHistoriaClinicaId(historiaClinicaId);
     }
 
-//    @Override
-//    public List<Consulta> obtenerConsultasPorFecha(LocalDate FechaIni, LocalDate FechaFin) {
-//        return consultaRepositorio.findByFechaBetween(startDate, endDate);
-//    }
+    @Override
+    public List<Consulta> obtenerConsultasPorFecha(LocalDate FechaIni, LocalDate FechaFin) {
+        return consultaRepositorio.findByFechaBetween(FechaIni, FechaFin);
+    }
 
     @Override
     public Consulta actualizarConsulta(Long id, Consulta consulta) {
